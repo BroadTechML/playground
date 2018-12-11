@@ -38,9 +38,12 @@ class BigCSVDataFrame(object):
         all_min = pd.concat(ph(n_jobs, min_cal, data))
         return all_min.groupby(['index']).min().reset_index()
     
-    def groupby_count(self, cols, n_jobs=4):
+    def groupby_count(self, cols, kcols=None, n_jobs=4):
         data = pd.read_csv(self.file, chunksize=self.chunksize)
-        group_count = lambda d: d.groupby(cols).count().reset_index().copy(deep=True)
+        if kcols is None:
+            group_count = lambda d: d.groupby(cols).count().reset_index().copy(deep=True)
+        else:
+            group_count = lambda d: d[kcols].groupby(cols).count().reset_index().copy(deep=True)
         all_count = pd.DataFrame()
         for d in data:
             g = group_count(d)
@@ -49,7 +52,9 @@ class BigCSVDataFrame(object):
 
 
 
+
+
 if __name__ == "__main__":
      b = BigCSVDataFrame(r"E:\projects\TelecomFraud\data\calllog_acess_20080280800.csv")
-     print(b.groupby_count(['phone']))
+     print(b.groupby_count(['phone'], ['phone', 'hcity']))
     #  print(b.min())
