@@ -17,3 +17,4 @@ def plot_miss_count(df, figsize=(10, 12), title="missing counts"):
     miss_val_pct = pd.DataFrame(miss_val_pct)
     miss_val_pct = miss_val_pct.rename(columns={0:'percent'})
     return miss_val_pct, miss_val_pct.sort_values(by='percent').plot(kind='barh', figsize=figsize, title=title)
+
