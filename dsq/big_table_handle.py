@@ -27,23 +27,29 @@ class BigCSVDataFrame(object):
         columns = data.get_chunk().columns
         return columns
 
-    def max(self, n_jobs=2):
+    def max(self, n_jobs=2, col=None):
         data = pd.read_csv(self.file, chunksize=self.chunksize)
-        max_cal = lambda d: d.max().reset_index()
+        if col is None:
+            max_cal = lambda d: d.max().reset_index()
+        else:
+            max_cal = lambda d: d[col].max().reset_index()
         all_max = pd.concat(ph(n_jobs, max_cal, data))
         return all_max.groupby(['index']).max().reset_index()
-    def min(self, n_jobs=2):
+    def min(self, n_jobs=2, col=None):
         data = pd.read_csv(self.file, chunksize=self.chunksize)
-        min_cal = lambda d: d.min().reset_index()
+        if col is None:
+            min_cal = lambda d: d.min().reset_index()
+        else:
+            min_cal = lambda d:d[col].min().reset_index()
         all_min = pd.concat(ph(n_jobs, min_cal, data))
         return all_min.groupby(['index']).min().reset_index()
     
-    def groupby_count(self, cols, kcols=None, n_jobs=4):
+    def groupby_count(self, cols, group_keys=None, n_jobs=4):
         data = pd.read_csv(self.file, chunksize=self.chunksize)
-        if kcols is None:
+        if group_keys is None:
             group_count = lambda d: d.groupby(cols).count().reset_index().copy(deep=True)
         else:
-            group_count = lambda d: d[kcols].groupby(cols).count().reset_index().copy(deep=True)
+            group_count = lambda d: d[group_keys].groupby(cols).count().reset_index().copy(deep=True)
         all_count = pd.DataFrame()
         for d in data:
             g = group_count(d)
