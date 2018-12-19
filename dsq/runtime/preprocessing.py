@@ -21,7 +21,7 @@ def preprocessing(input_file_path, output_file_path):
 def do_preprocessing(input_file_path, output_file_path):
     # check file:
     if not check_file_path(input_file_path):
-        print("%s doesn't  exist.")
+        print("%s doesn't  exist." % input_file_path)
         return False
 
     # check overwrite choice
