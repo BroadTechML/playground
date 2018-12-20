@@ -1,7 +1,10 @@
 # load modules
-import argparse
 import os
+import warnings
+import argparse
 from functions import check_file_path, check_overwrite
+
+warnings.filterwarnings('ignore')
 ## define configures
 description="example preprocessing"
 parameters = ['-input', '-output']
