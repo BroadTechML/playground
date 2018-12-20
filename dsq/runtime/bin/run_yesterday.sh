@@ -1,0 +1,19 @@
+# 定义变量
+day="20181219"
+output_dir=""
+
+#提取数据
+hive ...
+# 数据校验
+python3 ../datacheck.py -input input_dir -log log.txt -method dsq_datacheck
+# 特征工程
+python3 ../featureengineering.py ...
+# 模型预测
+python3 ../predict.py ...
+python3 ../predict.py ...
+# 模型融合
+python3 ../ensemble.py
+# 结果整理
+python3 ../resultsort.py ...
+# 质量报告
+python3 ../qualityreport.py ...
