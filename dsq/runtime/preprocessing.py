@@ -1,7 +1,10 @@
 # load modules
-import argparse
 import os
+import warnings
+import argparse
 from functions import check_file_path, check_overwrite
+
+warnings.filterwarnings('ignore')
 ## define configures
 description="example preprocessing"
 parameters = ['-input', '-output']
@@ -21,7 +24,7 @@ def preprocessing(input_file_path, output_file_path):
 def do_preprocessing(input_file_path, output_file_path):
     # check file:
     if not check_file_path(input_file_path):
-        print("%s doesn't  exist.")
+        print("%s doesn't  exist." % input_file_path)
         return False
 
     # check overwrite choice
